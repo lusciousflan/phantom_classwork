@@ -66,7 +66,6 @@ public class Map {
 	}
 	public void gameClear() {
 		isPlaying = false;
-		// TODO 今これ実装中 クリアの表示を作る 枠とか
 		for(int i = 10; i < WIDTH-10; i++) {
 			for(int j = 5; j < HEIGHT-5; j++) {
 				if((i == 10 || i == WIDTH-11) && (j == 5 || j == HEIGHT-6)) {
@@ -124,6 +123,9 @@ public class Map {
 		if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
 			return map[x][y];
 		} else return 'e'; 
+	}
+	public boolean getIsPlaying() {
+		return isPlaying;
 	}
 	public int remainingCoinsNum() {
 		int sum = 0;

@@ -32,16 +32,17 @@ public class Model {
 			
 		} else {
 			// タイプ時の処理
-			if(event.equals("w") || event.equals("UP")) {
-				player.move(0, -1, map);
-			} else if(event.equals("a") || event.equals("LEFT")) {
-				player.move(-1, 0, map);
-			} else if(event.equals("s") || event.equals("DOWN")) {
-				player.move(0, 1, map);
-			} else if(event.equals("d") || event.equals("RIGHT")) {
-				player.move(1, 0, map);
+			if(map.getIsPlaying()) {
+				if(event.equals("w") || event.equals("UP")) {
+					player.move(0, -1, map);
+				} else if(event.equals("a") || event.equals("LEFT")) {
+					player.move(-1, 0, map);
+				} else if(event.equals("s") || event.equals("DOWN")) {
+					player.move(0, 1, map);
+				} else if(event.equals("d") || event.equals("RIGHT")) {
+					player.move(1, 0, map);
+				}
 			}
-
 		}
 	}
 
