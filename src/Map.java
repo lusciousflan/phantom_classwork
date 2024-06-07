@@ -22,11 +22,11 @@ public class Map {
 	}
 
 	public void clear() {
-		for(int i = 0; i < WIDTH; i++) {
-			for(int j = 0; j < HEIGHT; j++) {
-				map[i][j] = '_';
-			}
-		}
+		// for(int i = 0; i < WIDTH; i++) {
+		// 	for(int j = 0; j < HEIGHT; j++) {
+		// 		map[i][j] = '_';
+		// 	}
+		// }
 	}
 
 	public void makeMaze() {
@@ -67,6 +67,23 @@ public class Map {
 	public void gameClear() {
 		isPlaying = false;
 		// TODO 今これ実装中 クリアの表示を作る 枠とか
+		for(int i = 10; i < WIDTH-10; i++) {
+			for(int j = 5; j < HEIGHT-5; j++) {
+				if((i == 10 || i == WIDTH-11) && (j == 5 || j == HEIGHT-6)) {
+					map[i][j] = '+';
+				} else if(i == 10 || i == WIDTH-11) {
+					map[i][j] = '|';
+				} else if(j == 5 || j == HEIGHT-6) {
+					map[i][j] = '-';
+				} else {
+					map[i][j] = ' ';
+				}
+			}
+		}
+		String s = "CLEAR";
+		for(int i = 0; i < s.length(); i++) {
+			map[WIDTH/2-s.length()/2+i][8] = s.charAt(i);
+		}
 	}
 
 	public void paint(View view) {
