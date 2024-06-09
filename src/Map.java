@@ -1,14 +1,17 @@
 import java.util.HashMap;
 import java.util.Random;
+// import javax.swing.Timer;
 
 public class Map {
 	private final static int WIDTH = 70;
 	private final static int HEIGHT = 24;
+	private final static int DELAY = 1000; // msec
 	private char[][] map;
 	private HashMap<Integer, Coin> coins; // TODO 名前ややこしいの何とかしたい
 	private int gx; // ゴールの座標
 	private int gy;
 	private boolean isPlaying;
+	// private Timer timer;
 	
 	
 	public Map() {
@@ -17,6 +20,7 @@ public class Map {
 		gx = 0;
 		gy = 0;
 		isPlaying = true; // TODO タイトル画面を作ったら変更する
+		// timer = new Timer(DELAY, this);
 		// clear();
 		makeMaze();
 	}
@@ -138,6 +142,13 @@ public class Map {
 	}
 	public boolean isGoal(int x, int y) {
 		return gx == x && gy == y;
+	}
+	public void coinCheck(int x, int y) {
+		for(HashMap.Entry<Integer, Coin> i : coins.entrySet()) {
+			if(i.getValue().getIsGot() && x*WIDTH+y == i.getKey()) {
+				i.getValue().getCoin();
+			}
+		}
 	}
 	public HashMap<Integer, Coin> getCoins() {
 		return coins;

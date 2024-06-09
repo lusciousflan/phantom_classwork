@@ -18,11 +18,7 @@ public class Player {
 				y += dy;
 			}
 			// コイン獲得処理
-			for(HashMap.Entry<Integer, Coin> i : map.getCoins().entrySet()) {
-				if(i.getKey() == x*map.getWidth()+y) {
-					i.getValue().getCoin();
-				}
-			}
+			map.coinCheck(x, y);
 			// ゴール処理
 			if(map.isGoal(x, y)) {
 				map.gameClear();
