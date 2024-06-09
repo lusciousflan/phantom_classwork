@@ -1,7 +1,7 @@
 public class Coin {
     private int x;
     private int y;
-    private boolean isGot;
+    private boolean isGot; // get済みならfalse
     private char icon;
 
     public Coin(int x, int y, char icon) {
