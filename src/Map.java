@@ -1,8 +1,10 @@
 import java.util.HashMap;
 import java.util.Random;
-// import javax.swing.Timer;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Map {
+public class Map implements ActionListener {
 	private final static int WIDTH = 70;
 	private final static int HEIGHT = 24;
 	private final static int DELAY = 1000; // msec
@@ -11,7 +13,8 @@ public class Map {
 	private int gx; // ゴールの座標
 	private int gy;
 	private boolean isPlaying;
-	// private Timer timer;
+	private Timer timer;
+	private int time;
 	
 	
 	public Map() {
@@ -20,7 +23,8 @@ public class Map {
 		gx = 0;
 		gy = 0;
 		isPlaying = true; // TODO タイトル画面を作ったら変更する
-		// timer = new Timer(DELAY, this);
+		timer = new Timer(DELAY, this);
+		time = 10;
 		// clear();
 		makeMaze();
 	}
@@ -68,8 +72,9 @@ public class Map {
 			gy = d-WIDTH*2-HEIGHT;
 		}
 	}
-	public void gameClear() {
+	public void gameFinish() {
 		isPlaying = false;
+		timer.stop();
 		for(int i = 10; i < WIDTH-10; i++) {
 			for(int j = 5; j < HEIGHT-5; j++) {
 				if((i == 10 || i == WIDTH-11) && (j == 5 || j == HEIGHT-6)) {
@@ -83,7 +88,17 @@ public class Map {
 				}
 			}
 		}
+	}
+	public void gameClear() {
+		gameFinish();
 		String s = "CLEAR";
+		for(int i = 0; i < s.length(); i++) {
+			map[WIDTH/2-s.length()/2+i][8] = s.charAt(i);
+		}
+	}
+	public void gameOver() {
+		gameFinish();
+		String s = "Game Over";
 		for(int i = 0; i < s.length(); i++) {
 			map[WIDTH/2-s.length()/2+i][8] = s.charAt(i);
 		}
@@ -97,9 +112,11 @@ public class Map {
 			}
 		}
 		// コイン配置
-		for(HashMap.Entry<Integer, Coin> i : coins.entrySet()) {
-			if(i.getValue().getIsGot()) {
-				i.getValue().paint(view);
+		if(isPlaying) {
+			for(HashMap.Entry<Integer, Coin> i : coins.entrySet()) {
+				if(i.getValue().getIsGot()) {
+					i.getValue().paint(view);
+				}
 			}
 		}
 		// ゴール配置
@@ -111,10 +128,16 @@ public class Map {
 		}
 		
 		// UI配置
+		// Coin
 		String s1 = "Coins: ";
 		String s2 = remainingCoinsNum() + " / " + coins.size();
 		view.drawString(s1, WIDTH+2, 4);
 		view.drawString(s2, WIDTH+4, 5);
+		// Timer
+		s1 = "Timer: ";
+		s2 = String.format("%02d", time/60) + ":" + String.format("%02d", time%60);
+		view.drawString(s1, WIDTH+2, 7);
+		view.drawString(s2, WIDTH+4, 8);
 	}
 
 	public int getWidth() {
@@ -147,7 +170,17 @@ public class Map {
 		for(HashMap.Entry<Integer, Coin> i : coins.entrySet()) {
 			if(i.getValue().getIsGot() && x*WIDTH+y == i.getKey()) {
 				i.getValue().getCoin();
+				if(coins.size()-remainingCoinsNum() == 1) {
+					timer.start();
+				}
 			}
+		}
+	}
+	public void actionPerformed(ActionEvent e) {
+		// System.out.println("Hello, World");
+		time--;
+		if(time < 0) {
+			gameOver();
 		}
 	}
 	public HashMap<Integer, Coin> getCoins() {

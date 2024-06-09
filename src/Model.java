@@ -25,7 +25,10 @@ public class Model {
 			
 			// 処理
 			map.paint(view);
-			player.paint(view);
+			if(map.getIsPlaying()) {
+				player.paint(view);
+			}
+		
 		
 			// 描画
 			view.paint();
