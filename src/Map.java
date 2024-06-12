@@ -4,12 +4,13 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Map implements ActionListener {
+public class Map implements ActionListener { // TODO 名前ややこしいの何とかしたい
 	private final static int WIDTH = 70;
 	private final static int HEIGHT = 24;
 	private final static int DELAY = 1000; // msec
 	private char[][] map;
-	private HashMap<Integer, Coin> coins; // TODO 名前ややこしいの何とかしたい
+	private HashMap<Integer, Coin> coins;
+	private HashMap<Integer, Enemy> enemies; 
 	private int gx; // ゴールの座標
 	private int gy;
 	private boolean isPlaying;
@@ -20,22 +21,15 @@ public class Map implements ActionListener {
 	public Map() {
 		map = new char[WIDTH][HEIGHT];
 		coins = new HashMap<Integer, Coin>();
+		enemies = new HashMap<Integer, Enemy>();
 		gx = 0;
 		gy = 0;
 		isPlaying = true; // TODO タイトル画面を作ったら変更する
 		timer = new Timer(DELAY, this);
-		time = 10;
-		// clear();
+		time = 256; // TODO テストが終わったら適切な値に戻す
 		makeMaze();
 	}
 
-	public void clear() {
-		// for(int i = 0; i < WIDTH; i++) {
-		// 	for(int j = 0; j < HEIGHT; j++) {
-		// 		map[i][j] = '_';
-		// 	}
-		// }
-	}
 
 	public void makeMaze() {
 		// 迷路の壁生成
@@ -54,6 +48,12 @@ public class Map implements ActionListener {
 			int x = random.nextInt(WIDTH-2);
 			int y = random.nextInt(HEIGHT-2);
 			coins.put((x+1)*WIDTH+y+1, new Coin(x+1, y+1, 'O'));
+		}
+		// 敵生成
+		for(int i = 0; i < 5; i++) {
+			int x = random.nextInt(WIDTH-2);
+			int y = random.nextInt(HEIGHT-2);
+			enemies.put((x+1)*WIDTH+y+1, new Enemy(x+1, y+1, '^', '<', '>', 'v'));
 		}
 		// ゴール生成
 		// TODO 実装が汚いのでなんとかする
@@ -119,6 +119,14 @@ public class Map implements ActionListener {
 				}
 			}
 		}
+		// 敵配置
+		if(isPlaying) {
+			for(HashMap.Entry<Integer, Enemy> i : enemies.entrySet()) {
+				// if(i.getValue().getIsGot()) {
+					i.getValue().paint(view);
+				// }
+			}
+		}
 		// ゴール配置
 		if(remainingCoinsNum() == 0) {
 			// TODO 通れるゴールを周囲3*3マスに拡大する
@@ -173,6 +181,13 @@ public class Map implements ActionListener {
 				if(coins.size()-remainingCoinsNum() == 1) {
 					timer.start();
 				}
+			}
+		}
+	}
+	public void enemyCheck(int x, int y) {
+		for(HashMap.Entry<Integer, Enemy> i : enemies.entrySet()) {
+			if(x*WIDTH+y == i.getKey()) {
+				gameOver();
 			}
 		}
 	}
