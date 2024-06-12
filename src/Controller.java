@@ -31,4 +31,7 @@ public class Controller implements ActionListener {
 			e1.printStackTrace();
 		}
 	}
+	public int getDelay() {
+		return DELAY;
+	}
 }

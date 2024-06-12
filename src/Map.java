@@ -1,10 +1,7 @@
 import java.util.HashMap;
 import java.util.Random;
-import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class Map implements ActionListener { // TODO 名前ややこしいの何とかしたい
+public class Map { // TODO 名前ややこしいの何とかしたい
 	private final static int WIDTH = 70;
 	private final static int HEIGHT = 24;
 	private final static int DELAY = 1000; // msec
@@ -14,8 +11,9 @@ public class Map implements ActionListener { // TODO 名前ややこしいの何
 	private int gx; // ゴールの座標
 	private int gy;
 	private boolean isPlaying;
-	private Timer timer;
-	private int time;
+	private boolean isTimerCounting;
+	private int time; // 残り時間
+	private int timeCounter; // 1秒たったかのカウントをする変数
 	
 	
 	public Map() {
@@ -25,8 +23,9 @@ public class Map implements ActionListener { // TODO 名前ややこしいの何
 		gx = 0;
 		gy = 0;
 		isPlaying = true; // TODO タイトル画面を作ったら変更する
-		timer = new Timer(DELAY, this);
+		isTimerCounting = false;
 		time = 256; // TODO テストが終わったら適切な値に戻す
+		timeCounter = 0;
 		makeMaze();
 	}
 
@@ -74,7 +73,7 @@ public class Map implements ActionListener { // TODO 名前ややこしいの何
 	}
 	public void gameFinish() {
 		isPlaying = false;
-		timer.stop();
+		isTimerCounting = false;
 		for(int i = 10; i < WIDTH-10; i++) {
 			for(int j = 5; j < HEIGHT-5; j++) {
 				if((i == 10 || i == WIDTH-11) && (j == 5 || j == HEIGHT-6)) {
@@ -179,7 +178,7 @@ public class Map implements ActionListener { // TODO 名前ややこしいの何
 			if(i.getValue().getIsGot() && x*WIDTH+y == i.getKey()) {
 				i.getValue().getCoin();
 				if(coins.size()-remainingCoinsNum() == 1) {
-					timer.start();
+					isTimerCounting = true;
 				}
 			}
 		}
@@ -191,11 +190,23 @@ public class Map implements ActionListener { // TODO 名前ややこしいの何
 			}
 		}
 	}
-	public void actionPerformed(ActionEvent e) {
-		// System.out.println("Hello, World");
-		time--;
-		if(time < 0) {
-			gameOver();
+	// public void moveEnemy() {
+	// 	Random random = new Random(System.currentTimeMillis());
+	// 	for(HashMap.Entry<Integer, Enemy> i : enemies.entrySet()) {
+	// 		i.getValue().move(this, random);
+	// 	}
+	// }
+
+	public void timerProcess(int delay) {
+		timeCounter++;
+		if(timeCounter >= DELAY/delay) { // 1秒たった
+			timeCounter = 0;
+			if(isTimerCounting) {
+				time--;
+			}
+			if(time < 0) {
+				gameOver();
+			}
 		}
 	}
 	public HashMap<Integer, Coin> getCoins() {

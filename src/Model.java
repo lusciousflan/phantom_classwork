@@ -1,7 +1,4 @@
-//t22cs005 市川束紗
-
 import java.io.IOException;
-
 
 public class Model {
 	private View view;
@@ -22,6 +19,8 @@ public class Model {
 			// 描画の更新
 			// まず画面をきれいにする
 			view.clear();
+			// map.moveEnemy();
+			map.timerProcess(controller.getDelay());
 			
 			// 処理
 			map.paint(view);
