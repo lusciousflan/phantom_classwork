@@ -1,4 +1,3 @@
-
 public class View {
 	private final static int WIDTH = 80;
 	private final static int HEIGHT = 24;
