@@ -39,6 +39,13 @@ public class Enemy {
         y += dy;
         distance--;
     }
+
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
     public void paint(View view) {
         view.put(icon, x, y);
     }

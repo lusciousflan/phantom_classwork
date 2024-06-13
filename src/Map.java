@@ -57,7 +57,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 		for(int i = 0; i < 5; i++) {
 			int x = random.nextInt(WIDTH-2);
 			int y = random.nextInt(HEIGHT-2);
-			enemies.put((x+1)*WIDTH+y+1, new Enemy(x+1, y+1, '^', '<', '>', 'v'));
+			enemies.put(i, new Enemy(x+1, y+1, '^', '<', '>', 'v'));
 		}
 		// ゴール生成
 		// TODO 実装が汚いのでなんとかする
@@ -188,7 +188,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 	}
 	public void enemyCheck(int x, int y) {
 		for(HashMap.Entry<Integer, Enemy> i : enemies.entrySet()) {
-			if(x*WIDTH+y == i.getKey()) {
+			if(x == i.getValue().getX() && y == i.getValue().getY()) {
 				gameOver();
 			}
 		}
