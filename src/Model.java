@@ -19,8 +19,10 @@ public class Model {
 			// 描画の更新
 			// まず画面をきれいにする
 			view.clear();
-			// map.moveEnemy();
+
 			map.timerProcess(controller.getDelay());
+			map.update();
+			player.update(map);
 			
 			// 処理
 			map.paint(view);

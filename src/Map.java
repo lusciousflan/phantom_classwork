@@ -29,6 +29,11 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 		makeMaze();
 	}
 
+	public void update() { // Mapで毎フレーム実行するもの
+		if(timeCounter % 10 == 0) {
+			moveEnemy();
+		}
+	}
 
 	public void makeMaze() {
 		// 迷路の壁生成
@@ -121,9 +126,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 		// 敵配置
 		if(isPlaying) {
 			for(HashMap.Entry<Integer, Enemy> i : enemies.entrySet()) {
-				// if(i.getValue().getIsGot()) {
-					i.getValue().paint(view);
-				// }
+				i.getValue().paint(view);
 			}
 		}
 		// ゴール配置
@@ -190,12 +193,12 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 			}
 		}
 	}
-	// public void moveEnemy() {
-	// 	Random random = new Random(System.currentTimeMillis());
-	// 	for(HashMap.Entry<Integer, Enemy> i : enemies.entrySet()) {
-	// 		i.getValue().move(this, random);
-	// 	}
-	// }
+	public void moveEnemy() {
+		Random random = new Random(System.currentTimeMillis());
+		for(HashMap.Entry<Integer, Enemy> i : enemies.entrySet()) {
+			i.getValue().move(this, random);
+		}
+	}
 
 	public void timerProcess(int delay) {
 		timeCounter++;

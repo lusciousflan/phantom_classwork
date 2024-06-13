@@ -11,6 +11,10 @@ public class Player {
 		this.icon = icon;
 	}
 
+	public void update(Map map) {
+		map.enemyCheck(x, y);
+	}
+
 	public void move(int dx, int dy, Map map) {
 		if(x+dx >= 0 && x+dx < map.getWidth() && y+dy >= 0 && y+dy < map.getHeight()) {
 			if(map.getMap(x+dx, y+dy) != '#') {
@@ -20,7 +24,7 @@ public class Player {
 			// コイン獲得処理
 			map.coinCheck(x, y);
 			// 敵処理
-			map.enemyCheck(x, y); 
+			// map.enemyCheck(x, y); 
 			// ゴール処理
 			if(map.isGoal(x, y)) {
 				map.gameClear();
