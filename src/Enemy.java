@@ -47,6 +47,15 @@ public class Enemy {
         return y;
     }
     public void paint(View view) {
+        if(dy == -1) {
+            icon = icon_u;
+        } else if(dx == -1) {
+            icon = icon_l;
+        } else if(dx == 1) {
+            icon = icon_r;
+        } else {
+            icon = icon_d;
+        }
         view.put(icon, x, y);
     }
 }
