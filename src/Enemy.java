@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class Enemy {
+    private final static int VIEW_LENGTH = 3; // 視界が前方何マスか
     private int x;
     private int y;
     private char icon;
@@ -38,6 +39,17 @@ public class Enemy {
         x += dx;
         y += dy;
         distance--;
+    }
+
+    public boolean isCatch(Map map, int x, int y) {
+        for(int i = 0; i < VIEW_LENGTH; i++) {
+            if(map.getMap(this.x+dx*i, this.y+dy*i) == '#') {
+                break;
+            } else if(this.x+dx*i == x && this.y+dy*i == y) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getX() {

@@ -10,8 +10,8 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 	private HashMap<Integer, Enemy> enemies; 
 	private int gx; // ゴールの座標
 	private int gy;
-	private boolean isPlaying;
-	private boolean isTimerCounting;
+	private boolean isPlaying; // プレイ中かどうか
+	private boolean isTimerCounting; // タイマーが動いているかどうか
 	private int time; // 残り時間
 	private int timeCounter; // 1秒たったかのカウントをする変数
 	
@@ -30,7 +30,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 	}
 
 	public void update() { // Mapで毎フレーム実行するもの
-		if(timeCounter % 10 == 0) {
+		if(isPlaying && timeCounter % 10 == 0) {
 			moveEnemy();
 		}
 	}
@@ -98,6 +98,10 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 		String s = "CLEAR";
 		for(int i = 0; i < s.length(); i++) {
 			map[WIDTH/2-s.length()/2+i][8] = s.charAt(i);
+		}
+		s = "Time : " + String.format("%02d", time/60) + ":" + String.format("%02d", time%60);
+		for(int i = 0; i < s.length(); i++) {
+			map[WIDTH/2-s.length()/2+i][10] = s.charAt(i);
 		}
 	}
 	public void gameOver() {
@@ -188,7 +192,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 	}
 	public void enemyCheck(int x, int y) {
 		for(HashMap.Entry<Integer, Enemy> i : enemies.entrySet()) {
-			if(x == i.getValue().getX() && y == i.getValue().getY()) {
+			if(i.getValue().isCatch(this, x, y)) {
 				gameOver();
 			}
 		}
@@ -212,6 +216,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 			}
 		}
 	}
+	// TODO coinの参照を渡しているのはやばいのでなおす
 	public HashMap<Integer, Coin> getCoins() {
 		return coins;
 	}
