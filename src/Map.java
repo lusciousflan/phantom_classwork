@@ -92,6 +92,10 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 				}
 			}
 		}
+		String s = "Press Enter or Space.";
+		for(int i = 0; i < s.length(); i++) {
+			map[WIDTH/2-s.length()/2+i][HEIGHT-8] = s.charAt(i);
+		}
 	}
 	public void gameClear() {
 		gameFinish();

@@ -17,6 +17,7 @@ public class Model {
 		isStarted = false;
 	}
 	public void gameStart() {
+		title.resetHowTo();
 		player = new Player(5, 5, '@');
 		map = new Map();
 	}
@@ -47,7 +48,7 @@ public class Model {
 			
 		} else {
 			// タイプ時の処理
-			if(isStarted) {
+			if(isStarted) { // ゲーム中
 				if(map.getIsPlaying()) {
 					if(event.equals("w") || event.equals("UP")) {
 						player.move(0, -1, map);
@@ -58,15 +59,17 @@ public class Model {
 					} else if(event.equals("d") || event.equals("RIGHT")) {
 						player.move(1, 0, map);
 					}
-				} else {
+				} else { // リザルト画面
 					if(event.equals("") || event.equals(" ")) {
 						isStarted = false;
 					}
 				}
-			} else {
-				if(event.equals("") || event.equals(" ")) {
+			} else { // ゲーム外
+				if(event.equals("")) { // エンターでゲームスタート
 					isStarted = true;
 					gameStart();
+				} else if(event.equals(" ")) { // スペースで遊び方を表示
+					title.switchHowTo();
 				}
 			}
 			
