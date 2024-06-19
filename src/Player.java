@@ -23,8 +23,6 @@ public class Player {
 			}
 			// コイン獲得処理
 			map.coinCheck(x, y);
-			// 敵処理
-			// map.enemyCheck(x, y); 
 			// ゴール処理
 			if(map.isGoal(x, y)) {
 				map.gameClear();

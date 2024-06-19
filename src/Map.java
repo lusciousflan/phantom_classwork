@@ -22,7 +22,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 		enemies = new HashMap<Integer, Enemy>();
 		gx = 0;
 		gy = 0;
-		isPlaying = true; // TODO タイトル画面を作ったら変更する
+		isPlaying = true;
 		isTimerCounting = false;
 		time = 256; // TODO テストが終わったら適切な値に戻す
 		timeCounter = 0;
@@ -139,7 +139,6 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 		}
 		// ゴール配置
 		if(remainingCoinsNum() == 0) {
-			// TODO 通れるゴールを周囲3*3マスに拡大する
 			map[gx][gy] = ' ';
 		} else {
 			view.put('G', gx, gy);	
@@ -167,7 +166,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 	public char getMap(int x, int y) {
 		if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
 			return map[x][y];
-		} else return 'e'; 
+		} else return 'e'; // エラーの意
 	}
 	public boolean getIsPlaying() {
 		return isPlaying;
@@ -219,9 +218,5 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 				gameOver();
 			}
 		}
-	}
-	// TODO coinの参照を渡しているのはやばいのでなおす
-	public HashMap<Integer, Coin> getCoins() {
-		return coins;
 	}
 }

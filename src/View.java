@@ -25,9 +25,7 @@ public class View {
 		for(int i = 0; i < s.length(); i++) {
 			put(s.charAt(i), x+i, y);
 		}
-	}
-	
-	
+	}	
 	
 	public void paint() {
 		for(int i = 0; i < 24; i++) {

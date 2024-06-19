@@ -17,6 +17,7 @@ public class Model {
 		isStarted = false;
 	}
 	public void gameStart() {
+		isStarted = true;
 		title.resetHowTo();
 		player = new Player(5, 5, '@');
 		map = new Map();
@@ -66,7 +67,6 @@ public class Model {
 				}
 			} else { // ゲーム外
 				if(event.equals("")) { // エンターでゲームスタート
-					isStarted = true;
 					gameStart();
 				} else if(event.equals(" ")) { // スペースで遊び方を表示
 					title.switchHowTo();
