@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -14,6 +16,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 	private boolean isTimerCounting; // タイマーが動いているかどうか
 	private int time; // 残り時間
 	private int timeCounter; // 1秒たったかのカウントをする変数
+	private Result result;
 	
 	
 	public Map() {
@@ -26,6 +29,7 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 		isTimerCounting = false;
 		time = 256; // TODO テストが終わったら適切な値に戻す
 		timeCounter = 0;
+		result = new Result();
 		makeMaze();
 	}
 
@@ -101,11 +105,19 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 		gameFinish();
 		String s = "CLEAR";
 		for(int i = 0; i < s.length(); i++) {
-			map[WIDTH/2-s.length()/2+i][8] = s.charAt(i);
+			map[WIDTH/2-s.length()/2+i][7] = s.charAt(i);
 		}
 		s = "Time : " + String.format("%02d", time/60) + ":" + String.format("%02d", time%60);
 		for(int i = 0; i < s.length(); i++) {
-			map[WIDTH/2-s.length()/2+i][10] = s.charAt(i);
+			map[WIDTH/2-s.length()/2+i][9] = s.charAt(i);
+		}
+		result.writeScore(time);
+		ArrayList<Integer> score = result.getScore();
+		for(int j = 0; j < Math.min(3, score.size()); j++) {
+			s = (j+1) + " "  + String.format("%02d", score.get(j)/60) + ":" + String.format("%02d", score.get(j)%60);
+			for(int i = 0; i < s.length(); i++) {
+				map[WIDTH/2-s.length()/2+i][12+j] = s.charAt(i);
+			}	
 		}
 	}
 	public void gameOver() {
