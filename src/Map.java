@@ -50,17 +50,53 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 				}
 			}
 		}
-		// コイン生成
+		// ランダムに迷路の仕切りを作る
+		// 未証明だが侵入できない区画はできないはず
 		Random random = new Random(System.currentTimeMillis());
+		for(int i = 0; i < 10; i++) {
+			int x, y;
+			boolean f = false;
+			// 開始座標
+			do {
+				f = false;
+				x = random.nextInt(WIDTH-4)+2;
+				y = random.nextInt(HEIGHT-4)+2;
+				for(int j1 = -1; j1 <= 1; j1++) {
+					for(int j2 = -1; j2 <= 1; j2++) {
+						if(map[x+j1][y+j2] == '#') {
+							f = true;
+						}
+					}
+				}
+			} while(f);
+			int len = random.nextInt(10) + 10;
+			int dir = random.nextInt(4);
+			int dx = dir % 2 * (dir-2);
+            int dy = (dir+1) % 2 * (dir-1);
+			for(int j = 0; j < len; j++) {
+				map[x+dx*j][y+dy*j] = '#';
+				if(isInMap(x+dx*(j+2), y+dy*(j+2)) && map[x+dx*(j+2)][y+dy*(j+2)] == '#') {
+					break;
+				}
+			}
+		}
+
+		// コイン生成
 		for(int i = 0; i < 5; i++) {
-			int x = random.nextInt(WIDTH-2);
-			int y = random.nextInt(HEIGHT-2);
+			int x, y;
+			do {
+				x = random.nextInt(WIDTH-2);
+				y = random.nextInt(HEIGHT-2);	
+			} while(map[x+1][y+1] == '#');
 			coins.put((x+1)*WIDTH+y+1, new Coin(x+1, y+1, 'O'));
 		}
 		// 敵生成
 		for(int i = 0; i < 5; i++) {
-			int x = random.nextInt(WIDTH-2);
-			int y = random.nextInt(HEIGHT-2);
+			int x, y;
+			do {
+				x = random.nextInt(WIDTH-2);
+				y = random.nextInt(HEIGHT-2);	
+			} while(map[x+1][y+1] == '#');
 			enemies.put(i, new Enemy(x+1, y+1, '^', '<', '>', 'v'));
 		}
 		// ゴール生成
@@ -167,6 +203,10 @@ public class Map { // TODO 名前ややこしいの何とかしたい
 		s2 = String.format("%02d", time/60) + ":" + String.format("%02d", time%60);
 		view.drawString(s1, WIDTH+2, 7);
 		view.drawString(s2, WIDTH+4, 8);
+	}
+
+	public boolean isInMap(int x, int y) {
+		return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT;
 	}
 
 	public int getWidth() {
